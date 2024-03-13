@@ -2,15 +2,15 @@ import {
 	Body,
 	Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe
 } from '@nestjs/common'
-import { TaskService } from './task.service'
+import { PomodoroService } from './pomodoro.service'
 import { Auth } from '../auth/decorators/auth.decorator'
 import { CurrentUser } from '../auth/decorators/user.decorator'
-import { TaskDto } from './task.dto'
+import { PomodoroDto } from './pomodoro.dto'
 
 
-@Controller('user/tasks')
-export class TaskController {
-	constructor(private readonly taskService: TaskService) {
+@Controller('user/timer')
+export class PomodoroController {
+	constructor(private readonly taskService: PomodoroService) {
 	}
 
 	@Get()
@@ -24,7 +24,7 @@ export class TaskController {
 	@HttpCode(200)
 	@Post()
 	@Auth()
-	async create(@Body() dto: TaskDto, @CurrentUser('id') userId: string) {
+	async create(@Body() dto: PomodoroDto, @CurrentUser('id') userId: string) {
 		return this.taskService.create(dto, userId)
 	}
 
@@ -33,7 +33,7 @@ export class TaskController {
 	@HttpCode(200)
 	@Put(':id')
 	@Auth()
-	async update(@Body() dto: TaskDto,
+	async update(@Body() dto: PomodoroDto,
 							 @CurrentUser('id') userId: string,
 							 @Param('id') id: string
 	) {
