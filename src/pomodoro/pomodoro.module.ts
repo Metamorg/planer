@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PomodoroController } from './Pomodoro.controller';
+import { PomodoroController } from './pomodoro.controller';
 import { PrismaService } from '../prisma.service';
-import { PomodoroService } from './Pomodoro.service'
+import { PomodoroService } from './pomodoro.service'
 
 @Module({
 	controllers: [PomodoroController],

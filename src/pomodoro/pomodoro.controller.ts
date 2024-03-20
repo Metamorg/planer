@@ -5,45 +5,61 @@ import {
 import { PomodoroService } from './pomodoro.service'
 import { Auth } from '../auth/decorators/auth.decorator'
 import { CurrentUser } from '../auth/decorators/user.decorator'
-import { PomodoroDto } from './pomodoro.dto'
+import { PomodoroRoundDto, PomodoroSessionDto } from './pomodoro.dto'
 
 
 @Controller('user/timer')
 export class PomodoroController {
-	constructor(private readonly taskService: PomodoroService) {
+	constructor(private readonly pomodoroService: PomodoroService) {
 	}
 
-	@Get()
+	@Get('today')
 	@Auth()
-	async getAll(@CurrentUser('id') userId: string) {
-		return this.taskService.getAll(userId)
+	async getTodaySession(@CurrentUser('id') userId: string) {
+		return this.pomodoroService.getTodaySession(userId)
 	}
 
 
-	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Post()
 	@Auth()
-	async create(@Body() dto: PomodoroDto, @CurrentUser('id') userId: string) {
-		return this.taskService.create(dto, userId)
+	async create( @CurrentUser('id') userId: string) {
+		return this.pomodoroService.create( userId)
 	}
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Put('/round/:id')
+	@Auth()
+	async updateRound(
+		@Param('id') id: string,
+		@Body() dto: PomodoroRoundDto
 
+	) {
+		return this.pomodoroService.updateRound(dto, id)
+	}
 
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Put(':id')
 	@Auth()
-	async update(@Body() dto: PomodoroDto,
+	async update(@Body() dto: PomodoroSessionDto,
 							 @CurrentUser('id') userId: string,
 							 @Param('id') id: string
 	) {
-		return this.taskService.update(dto, id, userId)
+		return this.pomodoroService.update(dto, id, userId)
 	}
 
 	@HttpCode(200)
 	@Delete(':id')
 	@Auth()
-	async delete(@Param('id') id: string) {
-		return this.taskService.delete(id)
+	async deleteSession(
+		@Param('id') id: string,
+		@CurrentUser('id') userId:string
+	)
+	{
+		return this.pomodoroService.deleteSession(id, userId)
 	}
+
+
+
 }

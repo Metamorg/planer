@@ -1,15 +1,14 @@
-import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
-import { Priority } from '@prisma/client'
-import { Transform } from 'class-transformer'
+import { IsBoolean, IsNumber, IsOptional } from 'class-validator'
+
 
 export class PomodoroSessionDto {
-@IsOptional()
+	@IsOptional()
 	@IsBoolean()
-isCompleted: boolean
+	isCompleted: boolean
 }
 
-export class PomodoroRoundDto{
-@IsNumber()
+export class PomodoroRoundDto {
+	@IsNumber()
 	totalSeconds: number
 
 	@IsOptional()
