@@ -37,7 +37,7 @@ export class PomodoroService {
 				id: userId
 			},
 			select: {
-				intervalCount: true
+				intervalsCount: true
 			}
 		})
 		if (!user) throw new NotFoundException('User not found')
@@ -45,7 +45,7 @@ export class PomodoroService {
 			data: {
 				rounds: {
 					createMany: {
-						data: Array.from({ length: user.intervalCount }, () => ({
+						data: Array.from({ length: user.intervalsCount }, () => ({
 							totalSeconds: 0
 						}))
 					}
